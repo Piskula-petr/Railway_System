@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "moment": "^2.29.1",
     "vue": "^3.0.0",
     "vue-click-outside": "^1.1.0",
-    "vue-router": "^4.0.0-0"
+    "vue-mixin-decorator": "^1.2.0",
+    "vue-router": "^4.0.0-0",
+    "vue-typed-mixins": "^0.2.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.18.0",

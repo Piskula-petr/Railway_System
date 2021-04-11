@@ -5,32 +5,33 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "stations")
-public class Station {
+@Table(name = "connections")
+public class Connection {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "name", length = 100)
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	private Company company;
 	
-	@Column(name = "position_x")
-	private int positionX;
-	
-	@Column(name = "position_y")
-	private int positionY;
+	@ManyToOne
+	@JoinColumn(name = "train_id")
+	private TrainName trainName;
 	
 // Bezparametrový konstruktor /////////////////////////////////////////////////////////////
 	
-	public Station() {
+	public Connection() {
 		
 	}
-	
+
 // Gettery + Settery //////////////////////////////////////////////////////////////////////
 	
 	public int getId() {
@@ -41,28 +42,20 @@ public class Station {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
-	public int getPositionX() {
-		return positionX;
+	public TrainName getTrainName() {
+		return trainName;
 	}
 
-	public void setPositionX(int positionX) {
-		this.positionX = positionX;
-	}
-
-	public int getPositionY() {
-		return positionY;
-	}
-
-	public void setPositionY(int positionY) {
-		this.positionY = positionY;
+	public void setTrainName(TrainName trainName) {
+		this.trainName = trainName;
 	}
 	
 }

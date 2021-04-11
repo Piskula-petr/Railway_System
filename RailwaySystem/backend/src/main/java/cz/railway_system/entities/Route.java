@@ -20,12 +20,9 @@ public class Route {
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "route_id")
-	private int route_id;
-	
 	@ManyToOne
 	@JoinColumn(name = "station_id")
-	private Station station;
+	private StationName stationName;
 
 	@Column(name = "arrival")
 	private LocalTime arrival;
@@ -55,20 +52,12 @@ public class Route {
 		this.id = id;
 	}
 
-	public long getRoute_id() {
-		return route_id;
+	public StationName getStationName() {
+		return stationName;
 	}
 
-	public void setRoute_id(int route_id) {
-		this.route_id = route_id;
-	}
-
-	public Station getStation() {
-		return station;
-	}
-
-	public void setStation(Station station) {
-		this.station = station;
+	public void setStationName(StationName stationName) {
+		this.stationName = stationName;
 	}
 
 	public LocalTime getArrival() {

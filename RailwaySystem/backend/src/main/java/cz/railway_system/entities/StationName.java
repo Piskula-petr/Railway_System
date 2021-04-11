@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "stations")
-public class Station {
+public class StationName {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +19,12 @@ public class Station {
 	@Column(name = "name", length = 100)
 	private String name;
 	
-	@Column(name = "position_x")
-	private int positionX;
+// Bezparametrový konstruktor /////////////////////////////////////////////////////////////	
 	
-	@Column(name = "position_y")
-	private int positionY;
-	
-// Bezparametrový konstruktor /////////////////////////////////////////////////////////////
-	
-	public Station() {
+	public StationName() {
 		
 	}
-	
+
 // Gettery + Settery //////////////////////////////////////////////////////////////////////
 	
 	public int getId() {
@@ -47,22 +41,6 @@ public class Station {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getPositionX() {
-		return positionX;
-	}
-
-	public void setPositionX(int positionX) {
-		this.positionX = positionX;
-	}
-
-	public int getPositionY() {
-		return positionY;
-	}
-
-	public void setPositionY(int positionY) {
-		this.positionY = positionY;
 	}
 	
 }

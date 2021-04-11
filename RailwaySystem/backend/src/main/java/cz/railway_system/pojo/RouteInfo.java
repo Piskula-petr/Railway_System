@@ -1,9 +1,11 @@
 package cz.railway_system.pojo;
 
+import cz.railway_system.entities.Connection;
 import cz.railway_system.entities.Route;
 
 public class RouteInfo {
 
+	private Connection connection;
 	private Route startRoute;
 	private Route endRoute;
 	
@@ -15,6 +17,14 @@ public class RouteInfo {
 
 // Gettery + Settery //////////////////////////////////////////////////////////////////////	
 	
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
 	public Route getStartRoute() {
 		return startRoute;
 	}
