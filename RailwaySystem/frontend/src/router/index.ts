@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import SearchForm from "../components/SearchForm.vue";
-import RoutesInfo from "../components/RoutesInfo.vue";
+import SearchForm from "../components/search-form/SearchForm.vue";
+import RoutesInfo from "../components/route-info/RoutesInfo.vue";
 
 const routes: Array<RouteRecordRaw> = [
 
@@ -9,7 +9,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SearchForm',
     component: SearchForm,
   }, 
-  
   {
     path: '/vysledky',
     name: 'RoutesInfo',

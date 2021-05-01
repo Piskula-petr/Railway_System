@@ -8,7 +8,7 @@ public interface StationService {
 
 	
 	/**
-	 * Seznam železničních stanic
+	 * Získání seznamu železničních stanic
 	 * 
 	 * @return - vrací List železničních stanic
 	 */

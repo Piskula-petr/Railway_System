@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import cz.railway_system.entities.Connection;
 import cz.railway_system.entities.Route;
 import cz.railway_system.entities.Train;
+import cz.railway_system.enums.LoadOption;
 import cz.railway_system.pojo.RouteDetail;
 import cz.railway_system.pojo.RouteInfo;
 import cz.railway_system.services.RoutesService;
@@ -32,12 +33,23 @@ public class RoutesServiceImpl implements RoutesService {
 	 * 
 	 * @param startStationID - id startovního nádraží
 	 * @param endStationID - id cílového nádraží
+	 * @param startTime - čas od
+	 * @param endTime - čas do
+	 * @param maxResult - počet výsledků
+	 * @param loadOption - Enum volba načítání [previous, next] 
 	 * 
 	 * @return - vrací List id spojů
 	 */
 	@Override
 	@Transactional
-	public List<Integer> getConnectionIDs(int startStationID, int endStationID) {
+	public List<Integer> getConnectionIDs(int startStationID, int endStationID, 
+			LocalTime startTime, LocalTime endTime, int maxResult, LoadOption loadOption) {
+		
+		List<Integer> connectionIDs = new ArrayList<>();
+		
+		String direction = (loadOption == LoadOption.later ? "" : "DESC");
+		
+// Seznamu ID, obsahující požadované vstupní / výstupní nádraží //////////////////////////
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(
@@ -47,31 +59,74 @@ public class RoutesServiceImpl implements RoutesService {
 	  + "WHERE station_id = :startStationID OR station_id = :endStationID "
 	  + "GROUP BY connection_id "
 	  + "HAVING COUNT(*) > 1 "
-	  + "ORDER BY connection_id");
+	  + "ORDER BY MIN(departure) " + direction);
 		
 		// Parametry
 		query.setParameter("startStationID", startStationID);
 		query.setParameter("endStationID", endStationID);
 		
-		List<Integer> connectionIDs = query.getResultList();
+		List<Integer> tempIDs = query.getResultList();
+		
+// Kontrola směru trasy //////////////////////////////////////////////////////////////////
+		
+		for (int connectionID : tempIDs) {
+			
+			query = session.createSQLQuery(
+					
+			"SELECT connection_id "
+		  +	"FROM routes "
+		  + "WHERE ("
+					
+		  		+ "SELECT station_order "
+		  		+ "FROM routes "
+		  		+ "WHERE connection_id = :connectionID "
+		  		+ "AND station_id = :startStationID "
+		  		+ "AND departure BETWEEN :startTime AND :endTime"
+		  
+		  + ") < ("
+		  
+		  		+ "SELECT station_order "
+		  		+ "FROM routes "
+		  		+ "WHERE connection_id = :connectionID "
+		  		+ "AND station_id = :endStationID "
+	  
+	  	  + ") AND connection_id = :connectionID "
+	  	  + "GROUP BY connection_id");
+			
+			// Parametry
+			query.setParameter("connectionID", connectionID);
+			query.setParameter("startStationID", startStationID);
+			query.setParameter("endStationID", endStationID);
+			query.setParameter("startTime", startTime);
+			query.setParameter("endTime", endTime);
+			
+			if (query.uniqueResult() != null) {
+				
+				connectionIDs.add((Integer) query.uniqueResult());
+				
+				// Přerušení cyklu, po dosažení počtu výsledků
+				if (connectionIDs.size() == maxResult) break;
+			}
+		}
 		
 		return connectionIDs;
 	}
 	
 	
 	/**
-	 * Získání seznamu informací o trasách
+	 * Získání seznamu spojů
 	 * 
 	 * @param connectionIDs - id spoje
 	 * @param startStationID - id startovního nádraží
 	 * @param endStationID - id cílového nádraží
-	 * @param departure - čas odjezdu
+	 * @param loadOption - Enum volba načítání [previous, next] 
 	 * 
-	 * @return - vrací List informací o trasách
+	 * @return - vrací List spojů
 	 */
 	@Override
 	@Transactional
-	public List<RouteInfo> getRoutesInfo(List<Integer> connectionIDs, int startStationID, int endStationID, LocalTime departureTime) {
+	public List<RouteInfo> getRoutesInfo(List<Integer> connectionIDs, int startStationID, 
+			int endStationID, LoadOption loadOption) {
 		
 		List<RouteInfo> routesInfo = new ArrayList<>();
 		
@@ -81,7 +136,7 @@ public class RoutesServiceImpl implements RoutesService {
 			
 			RouteInfo routeInfo = new RouteInfo();
 			
-			// Nastavení informace o spoji
+			// Nastavení informací o spoji
 			Connection connection = new Connection();
 			connection = session.get(Connection.class, connectionID);
 			routeInfo.setConnection(connection);
@@ -89,30 +144,16 @@ public class RoutesServiceImpl implements RoutesService {
 			Query query = session.createQuery(
 					
 			"FROM Route "
-		  + "WHERE ("
-					
-		  		+ "FROM RouteOrder "
-		  		+ "WHERE connection_id = :routeID "
-		  		+ "AND station_id = :startStationID "
-		  		+ "AND departure >= :departureTime"
-		  		
-		  + ") < ("
-		  
-		  		+ "FROM RouteOrder "
-		  		+ "WHERE connection_id = :routeID "
-		  		+ "AND station_id = :endStationID "
-		  		
-		  + ") AND (station_id = :startStationID OR station_id = :endStationID) "
-		  + "AND connection_id = :routeID "
+		  + "WHERE (station_id = :startStationID OR station_id = :endStationID) "
+		  + "AND connection_id = :connectionID "
 		  + "ORDER BY station_order", Route.class);
 			
 			// Parametry
-			query.setParameter("routeID", connectionID);
+			query.setParameter("connectionID", connectionID);
 			query.setParameter("startStationID", startStationID);
 			query.setParameter("endStationID", endStationID);
-			query.setParameter("departureTime", departureTime);
 			
-			// Nastavení počátečního a cílového trasy
+			// Nastavení počátečního a cílové trasy
 			if (!query.list().isEmpty()) {
 				
 				Route startRoute = (Route) query.getResultList().get(0);
@@ -124,20 +165,23 @@ public class RoutesServiceImpl implements RoutesService {
 			}
 		}
 		
-		// Setřízení Listu, podle času odjezdu
-		Collections.sort(routesInfo, (a, b) -> a.getStartRoute().getDeparture()
-				.compareTo(b.getStartRoute().getDeparture()));
+		// Setřízení starších spojů, podle času odjezdu
+		if (loadOption == LoadOption.previous) {
+			
+			Collections.sort(routesInfo, (a, b) -> a.getStartRoute().getDeparture()
+					.compareTo(b.getStartRoute().getDeparture()));
+		}
 		
 		return routesInfo;
 	}
 
 	
 	/**
-	 * Získání detailu o trase
+	 * Získání detailu spoje
 	 * 
 	 * @param connectionID - id spoje
 	 * 
-	 * @return - vrací detail o trase
+	 * @return - vrací detail spoje
 	 */
 	@Override
 	@Transactional

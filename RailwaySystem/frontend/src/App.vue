@@ -1,8 +1,4 @@
 <template>
-    <!-- <div>
-        <router-link to="/">Search Form</router-link>
-    </div> -->
-
     <router-view />
 </template>
 
@@ -24,16 +20,7 @@ body {
     height: 100%;
 }
 
-.navigation {
-    width: 1200px;
-    display: flex;
-    justify-content: space-around;
-    margin: 5px auto 20px auto;
-    background: #EEE;
-    border: 2px solid #c2c2c2;
-    border-radius: 5px;
-}
-
+/*__________________________ Styl záhlaví __________________________*/
 .header {
     background: #41B883;
     border-top-left-radius: 5px;

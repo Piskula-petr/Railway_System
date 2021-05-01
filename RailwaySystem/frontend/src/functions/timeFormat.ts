@@ -4,6 +4,7 @@ import moment from "moment";
  * Formát času
  * 
  * @param value - vstupní hodnota
+ * 
  */
 function timeFormat(value: string): string {
 

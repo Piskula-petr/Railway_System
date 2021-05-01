@@ -1,0 +1,213 @@
+.routeOverview {
+    width: 1200px;
+    display: flex;
+    justify-content: space-around;
+    margin: 5px auto;
+    background: #EEE;
+    border: 2px solid #c2c2c2;
+    border-radius: 5px;
+}
+
+/*__________________________ Tlačítko pro načítání spojů __________________________*/
+.loadButton {
+    width: 900px;
+    font-size: 1.2em;
+    margin: 30px 0px 0px 0px;
+    padding: 7px;
+    background: #41B883;
+    color: #EEE;
+    border: none;
+    border-radius: 5px;
+}
+
+.loadButton:last-child {
+    margin: 0px 0px 30px 0px;
+}
+
+.loadButton:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.loadButton:focus {
+    outline: none;
+}
+
+/*__________________________ Layout __________________________*/
+.content {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin: auto;
+    background: #EEE;
+    border: 2px solid #c2c2c2;
+    border-radius: 5px;
+}
+
+.routesContainer {
+    flex-grow: 1;
+}
+
+.optionsContainer {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+}
+
+.routeContainer {
+    background: white;
+    min-height: 100px;
+    width: 900px;
+    margin: 30px 20px;
+}
+
+/*__________________________ Záhlaví __________________________*/
+.header .train {
+    float: left;
+}
+
+.header .company {
+    text-align: right;
+}
+
+/*__________________________ Obsah trasy __________________________*/
+.routeContent {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    font-size: 1.2em;
+}
+
+.routeLogo img {
+    height: 77px;
+    margin: 14px 5px 0px 10px;
+    padding: 20px 0px;
+}
+
+/*__________________________ Čas příjezdu / odjezdu __________________________*/
+.arrivalDeparture {
+    align-self: center;
+}
+
+.arrivalDeparture > div {
+    padding: 20px 10px 20px 20px;
+}
+
+/*__________________________ Vstupní / výstupní nádraží __________________________*/
+.station {
+    align-self: center;
+    flex-grow: 1;
+}
+
+.station > div {
+    padding: 20px 0px 20px 20px;
+    text-align: left;
+}
+
+/*__________________________ Informace o trase __________________________*/
+.routeInfo {
+    align-self: center;
+    border-right: 2px solid #c2c2c2;
+    width: 230px;
+}
+
+.routeInfo .routeTime, .routeInfo .distance {
+    display: flex;
+    padding: 20px 0px 20px 20px;
+}
+
+.routeInfo img {
+    height: 22px;
+    padding: 0px 10px;
+}
+
+/*__________________________ Cena / Detail __________________________*/
+.priceAndDetail {
+    align-self: center;
+    width: 180px;
+}
+
+.price {
+    text-align: right;
+    margin: 30px 20px 20px 0px;
+}
+
+.detail {
+    float: right;
+    font-size: 1.1em;
+    color: #EEE;
+    padding: 7px 20px;
+    margin: 20px 20px 15px 0px;
+    background: #41B883;
+    border: none;
+    border-radius: 5px;
+}
+
+.detail:focus {
+    outline: none;
+}
+
+.detail:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+/*__________________________ Výběr možností __________________________*/
+.passengerTypeContainer {
+    text-align: left;
+    width: 220px;
+    background: white;
+    margin: 30px 20px;
+}
+
+.classSelectContainer {
+    text-align: left;
+    width: 220px;
+    background: white;
+    margin: 0px 20px 30px 20px;
+}
+
+.passengerSelect, .classSelect {
+    padding: 20px;
+}
+
+/*__________________________ Upravený input __________________________*/
+.optionsContainer input[type = 'radio'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    display: inline-block;
+    width: 1.7em;
+    height: 1.7em;
+    padding: 4px;
+
+    background-clip: content-box;
+    border: 1px solid #bbbbbb;
+    background-color: #e7e6e7;
+    border-radius: 50%;
+
+    margin: 5px 10px 5px 5px;
+}
+
+.optionsContainer input[type = "radio"]:checked {
+    background-color: #41B883;
+    border: 1px solid #41B883;
+}
+
+.optionsContainer input[type = "radio"]:focus {
+    outline: none;
+}
+
+.optionsContainer input[type = "radio"]:hover, .optionsContainer label {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.optionsContainer label {
+    position: absolute;
+    margin: 7px 0px 0px 0px;
+    font-size: 1.2em;
+    white-space: nowrap;
+}
