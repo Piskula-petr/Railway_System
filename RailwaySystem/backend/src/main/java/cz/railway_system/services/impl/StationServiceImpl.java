@@ -25,14 +25,14 @@ public class StationServiceImpl implements StationService {
 	 * 
 	 * @return - vrací List železničních stanic
 	 */
-	@Override
 	@Transactional
+	@Override
 	public List<Station> getStations() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("FROM Station", Station.class);
 		
-		List<Station> stations = query.list();
+		List<Station> stations = query.getResultList();
 		
 		return stations;
 	}

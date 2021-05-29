@@ -19,20 +19,20 @@ import cz.railway_system.entities.Train;
 import cz.railway_system.enums.LoadOption;
 import cz.railway_system.pojo.RouteDetail;
 import cz.railway_system.pojo.RouteInfo;
-import cz.railway_system.services.RoutesService;
+import cz.railway_system.services.RouteService;
 
 @Service
-public class RoutesServiceImpl implements RoutesService {
+public class RouteServiceImpl implements RouteService {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	
 	/**
-	 * Získání seznamu id spojů
+	 * Získání seznamu ID spojů
 	 * 
-	 * @param startStationID - id startovního nádraží
-	 * @param endStationID - id cílového nádraží
+	 * @param startStationID - ID startovního nádraží
+	 * @param endStationID - ID cílového nádraží
 	 * @param startTime - čas od
 	 * @param endTime - čas do
 	 * @param maxResult - počet výsledků
@@ -40,8 +40,8 @@ public class RoutesServiceImpl implements RoutesService {
 	 * 
 	 * @return - vrací List id spojů
 	 */
-	@Override
 	@Transactional
+	@Override
 	public List<Integer> getConnectionIDs(int startStationID, int endStationID, 
 			LocalTime startTime, LocalTime endTime, int maxResult, LoadOption loadOption) {
 		
@@ -116,15 +116,15 @@ public class RoutesServiceImpl implements RoutesService {
 	/**
 	 * Získání seznamu spojů
 	 * 
-	 * @param connectionIDs - id spoje
-	 * @param startStationID - id startovního nádraží
-	 * @param endStationID - id cílového nádraží
+	 * @param connectionIDs - ID spoje
+	 * @param startStationID - ID startovního nádraží
+	 * @param endStationID - ID cílového nádraží
 	 * @param loadOption - Enum volba načítání [previous, next] 
 	 * 
 	 * @return - vrací List spojů
 	 */
-	@Override
 	@Transactional
+	@Override
 	public List<RouteInfo> getRoutesInfo(List<Integer> connectionIDs, int startStationID, 
 			int endStationID, LoadOption loadOption) {
 		
@@ -179,12 +179,12 @@ public class RoutesServiceImpl implements RoutesService {
 	/**
 	 * Získání detailu spoje
 	 * 
-	 * @param connectionID - id spoje
+	 * @param connectionID - ID spoje
 	 * 
 	 * @return - vrací detail spoje
 	 */
-	@Override
 	@Transactional
+	@Override
 	public RouteDetail getRouteDetail(int connectionID) {
 		
 		RouteDetail routeDetail = new RouteDetail();

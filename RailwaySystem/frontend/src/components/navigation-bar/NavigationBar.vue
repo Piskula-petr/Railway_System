@@ -16,7 +16,7 @@
         
         <!-- Mapa vlaků -->
         <div>
-            <router-link :class="(isTrainMap ? 'linkActive' : 'linkInactive')" to="#">
+            <router-link :class="(isTrainMap ? 'linkActive' : 'linkInactive')" to="/prihlaseni">
                 Mapa vlaků
             </router-link>
         </div>

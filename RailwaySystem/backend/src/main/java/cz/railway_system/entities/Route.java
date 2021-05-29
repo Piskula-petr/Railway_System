@@ -23,7 +23,7 @@ public class Route {
 	@ManyToOne
 	@JoinColumn(name = "station_id")
 	private StationName stationName;
-
+	
 	@Column(name = "arrival")
 	private LocalTime arrival;
 	
@@ -51,7 +51,7 @@ public class Route {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
 	public StationName getStationName() {
 		return stationName;
 	}

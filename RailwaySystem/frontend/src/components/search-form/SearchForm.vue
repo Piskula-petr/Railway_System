@@ -10,16 +10,16 @@
 
         <!-- Mapa -->
         <div class="map">
-            <img class="map" src="@/assets/czech_republic.png">
+            <img class="map" src="@/assets/czech_republic_blank.png">
             <canvas ref="canvas" />
         </div>
 
+        <!-- Výběr startovního nádraží -->
         <div>
             <div class="inputContainer">
 
                 <label for="from">Odkud:</label>
 
-                <!-- Výběr startovního nádraží -->
                 <input id="from" type="text" v-model="formInputs.from.name" 
                     @click="inputFocus.from = true" 
                     @blur="inputFocus.from = false"
@@ -37,12 +37,12 @@
             </div>
         </div>
 
+        <!-- Výběr cílového nádraží -->
         <div>
             <div class="inputContainer">
 
                 <label for="to">Kam:</label>
 
-                <!-- Výběr cílového nádraží -->
                 <input id="to" type="text" v-model="formInputs.to.name" 
                     @focus="inputFocus.to = true" 
                     @blur="inputFocus.to = false" 
@@ -73,6 +73,7 @@
             </div>
         </div>
 
+        <!-- Tlačítko pro vyhledání -->
         <div>
             <button :disabled="formInputs.from.id === 0 || formInputs.to.id === 0"
                 :class="(formInputs.from.id === 0 || formInputs.to.id === 0) ? 'disabled' : ''">

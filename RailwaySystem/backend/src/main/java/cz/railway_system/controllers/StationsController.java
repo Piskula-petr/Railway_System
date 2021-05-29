@@ -16,7 +16,6 @@ import cz.railway_system.services.StationService;
 @RequestMapping("api")
 public class StationsController {
 	
-	
 	@Autowired
 	private StationService stationService;
 	

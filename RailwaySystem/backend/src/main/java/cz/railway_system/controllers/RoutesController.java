@@ -14,23 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 import cz.railway_system.enums.LoadOption;
 import cz.railway_system.pojo.RouteDetail;
 import cz.railway_system.pojo.RouteInfo;
-import cz.railway_system.services.RoutesService;
+import cz.railway_system.services.RouteService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api")
 public class RoutesController {
 
-	
 	@Autowired
-	private RoutesService routesService;
+	private RouteService routeService;
 	
 	
 	/**
 	 * Získání spojů
 	 * 
-	 * @param startStationID - id startovního nádraží
-	 * @param endStationID - id cílového nádraží
+	 * @param startStationID - ID startovního nádraží
+	 * @param endStationID - ID cílového nádraží
 	 * @param departure - čas odjezdu
 	 * @param loadOption - Enum volba načítání [previous, next] 
 	 * 
@@ -62,14 +61,14 @@ public class RoutesController {
 	/**
 	 * Získání detailu spoje
 	 * 
-	 * @param connectionID - id spoje
+	 * @param connectionID - ID spoje
 	 * 
 	 * @return - vrací detail spoje
 	 */
 	@GetMapping("/routesInfo/detail/{connectionID}")
 	public RouteDetail getRouteDetail(@PathVariable("connectionID") int connectionID) {
 		
-		RouteDetail routeDetail = routesService.getRouteDetail(connectionID);
+		RouteDetail routeDetail = routeService.getRouteDetail(connectionID);
 		
 		return routeDetail;
 	}
@@ -78,8 +77,8 @@ public class RoutesController {
 	/**
 	 * Získání předešlých spojů
 	 * 
-	 * @param startStationID - id startovního nádraží
-	 * @param endStationID - id cílového nádraží
+	 * @param startStationID - ID startovního nádraží
+	 * @param endStationID - ID cílového nádraží
 	 * @param departure - čas odjezdu
 	 * @param loadOption - Enum volba načítání [previous, next] 
 	 * 
@@ -89,20 +88,20 @@ public class RoutesController {
 			LocalTime departure, LoadOption loadOption) {
 		
 		// List ID [00:00:00 -> departure - 1 min]
-		List<Integer> connectionIDs = routesService.getConnectionIDs(startStationID, 
+		List<Integer> connectionIDs = routeService.getConnectionIDs(startStationID, 
 			endStationID, LocalTime.of(0, 0, 0), departure.minusMinutes(1), 3, loadOption);
 	
-		List<RouteInfo> routesInfo = routesService.getRoutesInfo(connectionIDs, 
+		List<RouteInfo> routesInfo = routeService.getRoutesInfo(connectionIDs, 
 			startStationID, endStationID, loadOption);
 		
 		// Načtení dalších spojů
 		if (routesInfo.size() < 3) {
 			
 			// List ID [departure -> 23:59:59]
-			connectionIDs = routesService.getConnectionIDs(startStationID, endStationID, 
+			connectionIDs = routeService.getConnectionIDs(startStationID, endStationID, 
 				departure, LocalTime.of(23, 59, 59), 3 - routesInfo.size(), loadOption);
 		
-			routesInfo.addAll(0, routesService.getRoutesInfo(connectionIDs, 
+			routesInfo.addAll(0, routeService.getRoutesInfo(connectionIDs, 
 				startStationID, endStationID, loadOption));
 		}
 		
@@ -113,8 +112,8 @@ public class RoutesController {
 	/**
 	 * Získání pozdějších spojů
 	 * 
-	 * @param startStationID - id startovního nádraží
-	 * @param endStationID - id cílového nádraží
+	 * @param startStationID - ID startovního nádraží
+	 * @param endStationID - ID cílového nádraží
 	 * @param departure - čas odjezdu
 	 * @param loadOption - Enum volba načítání [previous, next] 
 	 * 
@@ -124,20 +123,20 @@ public class RoutesController {
 			LocalTime departure, LoadOption loadOption) {
 		
 		// List ID [departure + 1 min -> 23:59:59]
-		List<Integer> connectionIDs = routesService.getConnectionIDs(startStationID, 
+		List<Integer> connectionIDs = routeService.getConnectionIDs(startStationID, 
 			endStationID, departure.plusMinutes(1), LocalTime.of(23, 59, 59), 3, loadOption);
 		
-		List<RouteInfo> routesInfo = routesService.getRoutesInfo(connectionIDs, 
+		List<RouteInfo> routesInfo = routeService.getRoutesInfo(connectionIDs, 
 			startStationID, endStationID, loadOption);
 		
 		// Načtení dalších spojů
 		if (routesInfo.size() < 3) {
 			
 			// List ID [00:00:00 -> departure]
-			connectionIDs = routesService.getConnectionIDs(startStationID, endStationID, 
+			connectionIDs = routeService.getConnectionIDs(startStationID, endStationID, 
 				LocalTime.of(0, 0, 0), departure, 3 - routesInfo.size(), loadOption);
 		
-			routesInfo.addAll(routesService.getRoutesInfo(connectionIDs, startStationID, 
+			routesInfo.addAll(routeService.getRoutesInfo(connectionIDs, startStationID, 
 				endStationID, loadOption));
 		}
 		
