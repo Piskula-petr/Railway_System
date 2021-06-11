@@ -46,7 +46,7 @@ public class ConnectionName {
 		return companyName;
 	}
 
-	public void setCompanyName(CompanyName companyName) {
+	public void setCompanyNames(CompanyName companyName) {
 		this.companyName = companyName;
 	}
 

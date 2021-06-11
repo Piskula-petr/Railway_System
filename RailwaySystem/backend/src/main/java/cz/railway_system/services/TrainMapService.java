@@ -17,7 +17,7 @@ public interface TrainMapService {
 	
 	
 	/**
-	 * Získání kojntrolního bodu trasy
+	 * Získání kontrolních bodu trasy
 	 * 
 	 * @param startStationID - ID startovního nádraží
 	 * @param endStationID - ID cílového nádraží

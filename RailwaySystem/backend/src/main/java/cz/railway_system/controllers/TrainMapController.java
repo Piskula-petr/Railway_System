@@ -24,12 +24,12 @@ public class TrainMapController {
 	
 	
 	/**
-	 * Získání aktuálních spojů
+	 * Získání vlakové mapy
 	 * 
 	 * @return - vrací List aktuálních spojů
 	 */
 	@GetMapping("/map")
-	public List<TrainMap> getRouteIDs() {
+	public List<TrainMap> getTrainMap() {
 		
 		List<TrainMap> trainsMap = trainMapService.getCurrentRoutes();
 		
@@ -42,7 +42,7 @@ public class TrainMapController {
 			int startSeconds = (routeStart.getArrival() != null 
 				? routeStart.getArrival().toSecondOfDay() 
 					: routeStart.getDeparture().toSecondOfDay());
-
+			
 			// Počet sekund aktuálního času
 			int currentSeconds = LocalTime.now().toSecondOfDay();
 			
@@ -57,14 +57,14 @@ public class TrainMapController {
 			
 			// Procentuální podíl trasy (trojčlenka)
 			double routePercentege = (currentSeconds * 100) / endSeconds; 
-
+			
 			// Zaokrouhlení na desítky
 			routePercentege = Math.round(routePercentege / 10) * 10;
 			
 			// Získání souřadnic kontrolního bodu trasy
 			Checkpoint checkpoint = trainMapService.getChecpointPosition(
 					routeStart.getStationName().getId(), routeEnd.getStationName().getId(), (int) routePercentege);
-
+			
 			trainMap.setCheckpoint(checkpoint);
 		}
 		

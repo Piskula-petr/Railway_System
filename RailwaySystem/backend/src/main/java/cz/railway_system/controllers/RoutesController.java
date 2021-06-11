@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class RoutesController {
 	@GetMapping("/routesInfo/fromId={fromId}&toId={toId}&departure={departure}&loadOption={loadOption}")
 	public List<RouteInfo> getMoreRoutesInfo(@PathVariable("fromId") int startStationID,
 			 								 @PathVariable("toId") int endStationID,
-			 								 @PathVariable("departure") LocalTime departure,
+			 								 @PathVariable("departure") @DateTimeFormat(pattern = "HH:mm") LocalTime departure,
 			 								 @PathVariable("loadOption") LoadOption loadOption) {
 		
 		List<RouteInfo> routesInfo = new ArrayList<>();

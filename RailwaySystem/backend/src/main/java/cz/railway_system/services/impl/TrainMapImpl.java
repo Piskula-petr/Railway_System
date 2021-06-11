@@ -101,7 +101,13 @@ public class TrainMapImpl implements TrainMapService {
 	
 	
 	/**
-	 * Získání kontrolních bodů trasy
+	 * Získání kontrolních bodu trasy
+	 * 
+	 * @param startStationID - ID startovního nádraží
+	 * @param endStationID - ID cílového nádraží
+	 * @param percentage - procentuální podíl trasy
+	 * 
+	 * @return - vrací kontrolní bod trasy
 	 */
 	@Override
 	@Transactional

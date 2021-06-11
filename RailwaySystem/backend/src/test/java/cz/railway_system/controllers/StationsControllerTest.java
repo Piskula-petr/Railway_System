@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,9 +23,9 @@ import cz.railway_system.services.StationService;
 @WebMvcTest(StationsController.class)
 public class StationsControllerTest {
 
-	private List<Station> stations;
+	private MockData mockData;
 	
-	private Random random;
+	private List<Station> stations;
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -41,7 +40,8 @@ public class StationsControllerTest {
 	@BeforeEach
 	public void setUp() {
 		
-		random = new Random();
+		mockData = new MockData();
+
 		stations = new ArrayList<>();
 	}
 	
@@ -55,11 +55,7 @@ public class StationsControllerTest {
 	public void getStations() throws Exception {
 		
 		// Vytvoření testovacího nádraží
-		Station station = new Station();
-		station.setId(random.nextInt());
-		station.setName("Praha hlavní nádraží");
-		station.setPositionX(random.nextInt());
-		station.setPositionY(random.nextInt());
+		Station station = mockData.getStation();
 		stations.add(station);
 		
 		when(stationService.getStations()).thenReturn(stations);
