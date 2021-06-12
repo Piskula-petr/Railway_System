@@ -17,4 +17,4 @@ PostgreSQL <br>
 JUnit / Mockito <br> <br>
 
 ## SQL Diagram
-<img src="sql.png">
+<img src="sql.jpg" width="80%">
