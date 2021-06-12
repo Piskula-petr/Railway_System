@@ -12,6 +12,9 @@ REST web application providing train timetables <br> <br>
 Spring Boot <br>
 Spring Security <br>
 Hibernate <br>
-Vue <br>
+Vue.js <br>
 PostgreSQL <br>
-JUnit / Mockito <br>
+JUnit / Mockito <br> <br>
+
+## SQL Diagram
+<img src="sql.png">
